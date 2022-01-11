@@ -1,0 +1,27 @@
+{
+  "appId": "com.angularfirebase.bringme",
+  "appName": "brigme",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {
+    "preferences": {
+      "GOOGLE_MAPS_ANDROID_API_KEY": "AIzaSyDIxvIDg8vH5h-npl22ipq5AWfTd7JuAhQ",
+      "GOOGLE_MAPS_IOS_API_KEY": "AIzaSyDIxvIDg8vH5h-npl22ipq5AWfTd7JuAhQ",
+      "ScrollEnabled": "false",
+      "android-targetSdkVersion": "29",
+      "android-minSdkVersion": "19",
+      "BackupWebStorage": "none",
+      "SplashMaintainAspectRatio": "true",
+      "FadeSplashScreenDuration": "300",
+      "SplashShowOnlyFirstTime": "false",
+      "SplashScreen": "screen",
+      "SplashScreenDelay": "3000"
+    }
+  }
+}

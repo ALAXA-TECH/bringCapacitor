@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">brigme</string>
+    <string name="title_activity_main">brigme</string>
+    <string name="package_name">com.angularfirebase.bringme</string>
+    <string name="custom_url_scheme">com.angularfirebase.bringme</string>
+    <string name="fb_app_id">1260740074107852</string>
+    <string name="fb_app_name">BringMe</string>
+</resources>
