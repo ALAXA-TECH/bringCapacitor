@@ -10,7 +10,11 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
-import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@ionic-native/sign-in-with-apple/ngx';
+import { AlertController } from '@ionic/angular';
+
+import { Plugins } from '@capacitor/core'
+const { SignInWithApple } = Plugins
+// import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
 
 @Component({
   selector: 'app-login',
@@ -26,15 +30,21 @@ export class LoginPage implements OnInit {
   text:any;
   loading:any;
   canBack = 1;
+  showAppleSignIn = false;
   
-  constructor(public events: Events,private http: HttpClient,private platform: Platform,private google: GooglePlus,private fb: Facebook,private fireAuth: AngularFireAuth,private route: ActivatedRoute,public server : ServerService,public toastController: ToastController,private nav: NavController,public loadingController: LoadingController,private signInWithApple: SignInWithApple){
+  constructor(public events: Events,private http: HttpClient,private platform: Platform,private google: GooglePlus,private fb: Facebook,private fireAuth: AngularFireAuth,private route: ActivatedRoute,public server : ServerService,public toastController: ToastController,private nav: NavController,public loadingController: LoadingController,private alertController: AlertController){
 
   this.text = JSON.parse(localStorage.getItem('app_text'));
 
   }
 
-  ngOnInit()
+  async ngOnInit()
   {
+    const { Device } = Plugins;
+    // Only show the Apple sign in button on iOS
+
+    let device = await Device.getInfo();
+    this.showAppleSignIn = device.platform === 'ios';
   }
 
   ionViewWillEnter()
@@ -196,20 +206,27 @@ export class LoginPage implements OnInit {
     });
   } 
   loginApple(){
-    this.signInWithApple.signin({
-      requestedScopes: [
-        ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
-        ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
-      ]
-    })
-    .then((res: AppleSignInResponse) => {
-      // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
-      alert('Send token to apple for verification: ' + res.identityToken);
-      console.log(res);
-    })
-    .catch((error: AppleSignInErrorResponse) => {
-      alert(error.code + ' ' + error.localizedDescription);
-      console.error(error);
+
+    SignInWithApple.Authorize()
+      .then(async (res) => {
+        if (res.response && res.response.identityToken) {
+          console.log(res.response);
+        } else {
+          this.presentAlert();
+        }
+      })
+      .catch((response) => {
+        this.presentAlert();
+      });
+
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Login Failed',
+      message: 'Please try again later',
+      buttons: ['OK'],
     });
+    await alert.present();
   }
 }

@@ -25,7 +25,9 @@ import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { Stripe } from '@ionic-native/stripe/ngx';
 import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
 
-import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@ionic-native/sign-in-with-apple/ngx';
+
+
+import { SignInWithApple, AppleSignInResponse, AppleSignInErrorResponse, ASAuthorizationAppleIDRequest } from '@awesome-cordova-plugins/sign-in-with-apple/ngx';
 
 
 @NgModule({
